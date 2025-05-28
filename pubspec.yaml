@@ -1,5 +1,5 @@
 name: fitventure
-description: A fitness adventure app with AR features and gamification. Discover hidden fitness challenges in your area and earn rewards!
+description: A gamified fitness app that makes working out fun and engaging.
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -11,49 +11,64 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-
-  # UI and Animation
+  
+  # Core
   cupertino_icons: ^1.0.6
-  lottie: ^2.7.0
-  google_fonts: ^6.1.0
-
-  # State Management
   provider: ^6.1.1
-
+  shared_preferences: ^2.2.2
+  intl: ^0.18.1
+  
   # Firebase
   firebase_core: ^2.24.2
   firebase_auth: ^4.15.3
   cloud_firestore: ^4.13.6
-
-  # Location and Maps
+  firebase_storage: ^11.5.6
+  
+  # UI & Animations
+  lottie: ^2.7.0
+  flutter_animate: ^4.5.0
+  google_fonts: ^6.1.0
+  flutter_svg: ^2.0.9
+  cached_network_image: ^3.3.0
+  shimmer: ^3.0.0
+  
+  # Location & Maps
   google_maps_flutter: ^2.5.0
-  location: ^5.0.3
-
-  # AR Features
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
+  
+  # AR & Camera
   arcore_flutter_plugin: ^0.1.0
-
-  # Storage
-  shared_preferences: ^2.2.2
-
+  camera: ^0.10.5+5
+  
   # Utils
-  intl: ^0.20.2
-  uuid: ^4.2.2
-  logger: ^2.0.2+1
+  path_provider: ^2.1.1
+  image_picker: ^1.0.5
+  url_launcher: ^6.2.2
+  share_plus: ^7.2.1
+  package_info_plus: ^5.0.1
+  device_info_plus: ^9.1.1
+  connectivity_plus: ^5.0.2
+  flutter_native_splash: ^2.3.8
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.1
+  build_runner: ^2.4.7
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.3.8
 
 flutter:
   uses-material-design: true
-  generate: true  # For localization
+  generate: true
 
   assets:
-    - assets/animations/
     - assets/images/
-    - assets/models/
+    - assets/animations/
     - assets/icons/
+    - assets/fonts/
 
   fonts:
     - family: Poppins
@@ -64,4 +79,18 @@ flutter:
         - asset: assets/fonts/Poppins-SemiBold.ttf
           weight: 600
         - asset: assets/fonts/Poppins-Bold.ttf
-          weight: 700 
+          weight: 700
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/icons/app_icon_foreground.png"
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/images/splash.png
+  android: true
+  ios: true
+  web: false 

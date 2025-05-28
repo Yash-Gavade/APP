@@ -1,26 +1,29 @@
-# FitVenture
+# FitVenture - Gamified Fitness App
 
-A fitness adventure app with AR features and gamification. Discover hidden fitness challenges in your area and earn rewards!
+FitVenture is a gamified fitness app that makes working out fun and engaging, similar to Duolingo and Pokémon GO. The app combines fitness tracking, social features, and augmented reality to create an immersive fitness experience.
 
 ## Features
 
-- 🎯 AR-based surprise discovery
-- 🗺️ Location-based challenges
-- 🏆 Gamification with XP, levels, and badges
-- 🌍 Multi-language support (English & German)
-- 🎨 Beautiful UI with animations
-- 🔐 Secure authentication
-- 📱 Cross-platform (iOS & Android)
+- 🎮 Gamified workout experience
+- 👥 Social features (friends, groups, challenges)
+- 🎯 AR-based surprise discoveries
+- 📊 Progress tracking and achievements
+- 🏆 Badges and rewards system
+- 🌍 Multi-language support
+- 🌙 Dark/Light theme
+- 📱 Responsive design
 
-## Prerequisites
+## Getting Started
 
-- Flutter SDK (>=3.0.0)
-- Dart SDK (>=3.0.0)
-- Android Studio / Xcode
-- Google Maps API Key
-- Firebase Project
+### Prerequisites
 
-## Setup
+- Flutter SDK (3.0.0 or higher)
+- Android Studio / VS Code
+- Android SDK (for Android development)
+- Xcode (for iOS development, macOS only)
+- Firebase account
+
+### Installation
 
 1. Clone the repository:
 ```bash
@@ -35,49 +38,82 @@ flutter pub get
 
 3. Configure Firebase:
    - Create a new Firebase project
-   - Add Android and iOS apps
+   - Add Android and iOS apps to your Firebase project
    - Download and add the configuration files:
      - Android: `google-services.json` to `android/app/`
      - iOS: `GoogleService-Info.plist` to `ios/Runner/`
 
-4. Configure Google Maps:
-   - Get a Google Maps API key
-   - Android: Add to `android/app/src/main/AndroidManifest.xml`
-   - iOS: Add to `ios/Runner/AppDelegate.swift`
+4. Update Firebase configuration:
+   - For Android: Update `android/app/build.gradle` with your Firebase configuration
+   - For iOS: Update `ios/Runner/Info.plist` with your Firebase configuration
 
-5. Create required assets:
-   ```
-   assets/
-   ├── animations/
-   │   └── loading.json
-   ├── images/
-   ├── models/
-   │   └── surprise.glb
-   └── icons/
-   ```
+5. Generate assets:
+```bash
+flutter pub run flutter_launcher_icons
+flutter pub run flutter_native_splash:create
+```
 
-6. Run the app:
+### Running the App
+
+1. Connect a device or start an emulator
+
+2. Run the app:
 ```bash
 flutter run
 ```
+
+### Testing Credentials
+
+For testing purposes, you can use the following admin account:
+- Email: admin@fitventure.com
+- Password: 1234
 
 ## Project Structure
 
 ```
 lib/
-├── l10n/              # Localization
-├── models/            # Data models
-├── screens/           # UI screens
-├── services/          # Business logic
-├── utils/             # Utilities
-└── widgets/           # Reusable widgets
+├── l10n/                 # Localization files
+├── models/              # Data models
+├── screens/             # App screens
+│   ├── auth/           # Authentication screens
+│   ├── home/           # Home screen and related
+│   ├── profile/        # Profile screens
+│   ├── settings/       # Settings screens
+│   ├── social/         # Social features
+│   └── surprise/       # AR discovery features
+├── services/           # Business logic and services
+├── utils/              # Utility functions and constants
+├── widgets/            # Reusable widgets
+└── main.dart           # App entry point
+```
+
+## Development
+
+### Code Style
+
+The project follows the official Flutter style guide. Run the following command to check your code:
+
+```bash
+flutter analyze
+```
+
+### Building for Release
+
+1. Android:
+```bash
+flutter build apk --release
+```
+
+2. iOS:
+```bash
+flutter build ios --release
 ```
 
 ## Contributing
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
@@ -88,6 +124,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - Flutter team for the amazing framework
-- ARCore team for AR capabilities
-- Google Maps team for location services
-- All contributors and supporters
+- Firebase for backend services
+- All contributors and supporters of the project
