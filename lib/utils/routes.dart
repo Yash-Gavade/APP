@@ -8,6 +8,10 @@ import 'package:fitquest/screens/workout/workout_plan_screen.dart';
 import 'package:fitquest/screens/tracker/tracker_screen.dart';
 import 'package:fitquest/screens/profile/profile_screen.dart';
 import 'package:fitquest/screens/map/map_challenge_screen.dart';
+import 'package:fitquest/screens/surprise/surprise_discovery_screen.dart';
+import 'package:fitquest/screens/surprise/surprise_details_screen.dart';
+import 'package:fitquest/screens/surprise/surprise_list_screen.dart';
+import 'package:fitquest/screens/settings/settings_screen.dart';
 
 class AppRoutes {
   static const String splash = '/';
@@ -19,6 +23,10 @@ class AppRoutes {
   static const String tracker = '/tracker';
   static const String profile = '/profile';
   static const String mapChallenge = '/map-challenge';
+  static const String surpriseDiscovery = '/surprise/discovery';
+  static const String surpriseDetails = '/surprise/details';
+  static const String surpriseList = '/surprise/list';
+  static const String settings = '/settings';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -40,6 +48,25 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
       case mapChallenge:
         return MaterialPageRoute(builder: (_) => const MapChallengeScreen());
+      case surpriseDiscovery:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => SurpriseDiscoveryScreen(
+            surpriseId: args['surpriseId'] as String,
+            location: args['location'] as LatLng,
+          ),
+        );
+      case surpriseDetails:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => SurpriseDetailsScreen(
+            surpriseId: args['surpriseId'] as String,
+          ),
+        );
+      case surpriseList:
+        return MaterialPageRoute(builder: (_) => const SurpriseListScreen());
+      case settings:
+        return MaterialPageRoute(builder: (_) => const SettingsScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

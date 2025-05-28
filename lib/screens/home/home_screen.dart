@@ -10,6 +10,8 @@ import 'package:fitquest/widgets/home/daily_progress_card.dart';
 import 'package:fitquest/widgets/home/next_workout_card.dart';
 import 'package:fitquest/widgets/home/mood_tracker_card.dart';
 import 'package:fitquest/widgets/home/achievement_card.dart';
+import 'package:fitquest/utils/routes.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,218 +21,174 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
-  
+  int _selectedIndex = 0;
+
   final List<Widget> _screens = [
-    const HomeContent(),
-    const WorkoutPlanScreen(),
-    const MapChallengeScreen(),
-    const TrackerScreen(),
+    const _HomeTab(),
     const ProfileScreen(),
+    const SettingsScreen(),
   ];
-  
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
-      body: _screens[_currentIndex],
+      body: _screens[_selectedIndex],
       bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
+        selectedIndex: _selectedIndex,
         onDestinationSelected: (index) {
-          setState(() => _currentIndex = index);
+          setState(() {
+            _selectedIndex = index;
+          });
         },
-        destinations: const [
+        destinations: [
           NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            label: 'Home',
+            icon: const Icon(Icons.home),
+            label: l10n.home,
           ),
           NavigationDestination(
-            icon: Icon(Icons.fitness_center_outlined),
-            selectedIcon: Icon(Icons.fitness_center),
-            label: 'Workouts',
+            icon: const Icon(Icons.person),
+            label: l10n.profile,
           ),
           NavigationDestination(
-            icon: Icon(Icons.map_outlined),
-            selectedIcon: Icon(Icons.map),
-            label: 'Challenges',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.track_changes_outlined),
-            selectedIcon: Icon(Icons.track_changes),
-            label: 'Track',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person),
-            label: 'Profile',
+            icon: const Icon(Icons.settings),
+            label: l10n.settings,
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const ChatbotScreen()),
-          );
-        },
-        child: const Icon(Icons.chat),
       ),
     );
   }
 }
 
-class HomeContent extends StatelessWidget {
-  const HomeContent({super.key});
+class _HomeTab extends StatelessWidget {
+  const _HomeTab();
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<AuthService>(context).userProfile;
-    
-    return SafeArea(
-      child: CustomScrollView(
-        slivers: [
-          // App Bar
-          SliverAppBar(
-            floating: true,
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Welcome back,',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                Text(
-                  user?.name ?? 'Fitness Warrior',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
+    final l10n = AppLocalizations.of(context);
+    final auth = Provider.of<AuthService>(context);
+    final user = auth.userProfile;
+
+    if (user == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(l10n.appTitle),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications),
+            onPressed: () {
+              // TODO: Show notifications
+            },
+          ),
+        ],
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          // Welcome Card
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Welcome, ${user.name}!',
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
-                ),
-              ],
+                  const SizedBox(height: 8),
+                  Text(
+                    'Level ${user.level} • ${user.xp} XP',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
             ),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.notifications_outlined),
-                onPressed: () {
-                  // TODO: Show notifications
+          ),
+          const SizedBox(height: 16),
+
+          // Quick Actions
+          GridView.count(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: 2,
+            mainAxisSpacing: 16,
+            crossAxisSpacing: 16,
+            children: [
+              _ActionCard(
+                title: l10n.workouts,
+                icon: Icons.fitness_center,
+                onTap: () {
+                  // TODO: Navigate to workouts
+                },
+              ),
+              _ActionCard(
+                title: l10n.challenges,
+                icon: Icons.emoji_events,
+                onTap: () {
+                  // TODO: Navigate to challenges
+                },
+              ),
+              _ActionCard(
+                title: l10n.progress,
+                icon: Icons.trending_up,
+                onTap: () {
+                  // TODO: Navigate to progress
+                },
+              ),
+              _ActionCard(
+                title: l10n.stats,
+                icon: Icons.bar_chart,
+                onTap: () {
+                  // TODO: Navigate to stats
                 },
               ),
             ],
           ),
-          
-          // Content
-          SliverPadding(
-            padding: const EdgeInsets.all(16.0),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate([
-                // Daily Progress
-                const DailyProgressCard(),
-                const SizedBox(height: 16),
-                
-                // Next Workout
-                const NextWorkoutCard(),
-                const SizedBox(height: 16),
-                
-                // Mood Tracker
-                const MoodTrackerCard(),
-                const SizedBox(height: 16),
-                
-                // Recent Achievements
-                const AchievementCard(),
-                const SizedBox(height: 16),
-                
-                // Quick Actions
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Quick Actions',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        const SizedBox(height: 16),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            _QuickActionButton(
-                              icon: Icons.fitness_center,
-                              label: 'Start Workout',
-                              onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  '/workout-plan',
-                                );
-                              },
-                            ),
-                            _QuickActionButton(
-                              icon: Icons.map,
-                              label: 'Find Challenge',
-                              onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  '/map-challenge',
-                                );
-                              },
-                            ),
-                            _QuickActionButton(
-                              icon: Icons.chat,
-                              label: 'Chat with AI',
-                              onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  '/chatbot',
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ]),
-            ),
-          ),
         ],
       ),
     );
   }
 }
 
-class _QuickActionButton extends StatelessWidget {
+class _ActionCard extends StatelessWidget {
+  final String title;
   final IconData icon;
-  final String label;
   final VoidCallback onTap;
 
-  const _QuickActionButton({
+  const _ActionCard({
+    required this.title,
     required this.icon,
-    required this.label,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              size: 32,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              label,
-              style: Theme.of(context).textTheme.bodyMedium,
-              textAlign: TextAlign.center,
-            ),
-          ],
+    return Card(
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 32,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                title,
+                style: Theme.of(context).textTheme.titleMedium,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );
