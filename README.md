@@ -1,4 +1,4 @@
-# FitQuest
+# FitVenture
 
 A fitness adventure app with AR features and gamification. Discover hidden fitness challenges in your area and earn rewards!
 
@@ -24,8 +24,8 @@ A fitness adventure app with AR features and gamification. Discover hidden fitne
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/fitquest.git
-cd fitquest
+git clone https://github.com/yourusername/fitventure.git
+cd fitventure
 ```
 
 2. Install dependencies:

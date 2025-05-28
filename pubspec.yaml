@@ -1,0 +1,67 @@
+name: fitventure
+description: A fitness adventure app with AR features and gamification. Discover hidden fitness challenges in your area and earn rewards!
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # UI and Animation
+  cupertino_icons: ^1.0.6
+  lottie: ^2.7.0
+  google_fonts: ^6.1.0
+
+  # State Management
+  provider: ^6.1.1
+
+  # Firebase
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.15.3
+  cloud_firestore: ^4.13.6
+
+  # Location and Maps
+  google_maps_flutter: ^2.5.0
+  location: ^5.0.3
+
+  # AR Features
+  arcore_flutter_plugin: ^0.1.0
+
+  # Storage
+  shared_preferences: ^2.2.2
+
+  # Utils
+  intl: ^0.18.1
+  uuid: ^4.2.2
+  logger: ^2.0.2+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+
+flutter:
+  uses-material-design: true
+  generate: true  # For localization
+
+  assets:
+    - assets/animations/
+    - assets/images/
+    - assets/models/
+    - assets/icons/
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700 
