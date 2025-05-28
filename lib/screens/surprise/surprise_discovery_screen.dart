@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fitquest/services/surprise_service.dart';
+import 'package:fitquest/utils/routes.dart';
 import 'package:lottie/lottie.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart' as gmaps;
 
 class SurpriseDiscoveryScreen extends StatefulWidget {
   const SurpriseDiscoveryScreen({super.key});
@@ -73,7 +75,7 @@ class _SurpriseDiscoveryScreenState extends State<SurpriseDiscoveryScreen> {
                       const SizedBox(height: 8),
                       ElevatedButton.icon(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/ar-discovery');
+                          Navigator.pushNamed(context, AppRoutes.arDiscovery);
                         },
                         icon: const Icon(Icons.camera_alt),
                         label: const Text('Try AR Discovery'),
@@ -103,11 +105,10 @@ class _SurpriseDiscoveryScreenState extends State<SurpriseDiscoveryScreen> {
                                 child: const Text('Unlock'),
                               ),
                         onTap: () {
-                          // Show surprise details
                           Navigator.pushNamed(
                             context,
-                            '/surprise-details',
-                            arguments: surprise,
+                            AppRoutes.surpriseDetails,
+                            arguments: {'id': surprise['id']},
                           );
                         },
                       ),
