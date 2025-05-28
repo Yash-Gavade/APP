@@ -601,14 +601,79 @@ class _SocialScreenState extends State<SocialScreen> with SingleTickerProviderSt
             ),
             ListTile(
               leading: const Icon(Icons.person),
-    // Implement friend options menu
+              title: const Text('View Profile'),
+              onTap: () {
+                Navigator.pop(context);
+                // TODO: Navigate to profile
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.block, color: Colors.red),
+              title: const Text('Block User', style: TextStyle(color: Colors.red)),
+              onTap: () {
+                Navigator.pop(context);
+                // TODO: Implement block user
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   void _showGroupOptions(BuildContext context, DocumentSnapshot group) {
-    // Implement group options menu
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.chat),
+              title: const Text('Group Chat'),
+              onTap: () {
+                Navigator.pop(context);
+                // TODO: Navigate to group chat
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.edit),
+              title: const Text('Edit Group'),
+              onTap: () {
+                Navigator.pop(context);
+                // TODO: Edit group details
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.exit_to_app, color: Colors.red),
+              title: const Text('Leave Group', style: TextStyle(color: Colors.red)),
+              onTap: () {
+                Navigator.pop(context);
+                // TODO: Implement leave group
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> _sendFriendRequest(String userId) async {
-    // Implement friend request logic
+    try {
+      final socialService = Provider.of<SocialService>(context, listen: false);
+      await socialService.sendFriendRequest(userId);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Friend request sent!')),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 } 
